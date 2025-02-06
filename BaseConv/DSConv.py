@@ -1,8 +1,8 @@
-
 import torch
 from torch import nn
 import einops
 from torchsummary import summary
+from fvcore.nn import FlopCountAnalysis
 
 """Dynamic Snake Convolution Module"""
 
@@ -21,7 +21,6 @@ class DSConv_pro(nn.Module):
         """
         A Dynamic Snake Convolution Implementation
         Based on:
-            TODO
         Args:
             in_ch: number of input channels. Defaults to 1.
             out_ch: number of output channels. Defaults to 1.
@@ -104,7 +103,7 @@ def get_coordinate_map_2D(
         extend_scope: float = 1.0,
         device: str | torch.device = "cuda",
 ):
-    """Computing 2D coordinate map of DSCNet based on: TODO
+    """Computing 2D coordinate map of DSCNet based on:
     Args:
         offset: offset predict by network with shape [B, 2*K, W, H]. Here K refers to kernel size.
         morph: the morphology of the convolution kernel is mainly divided into two types along the x-axis (0) and the y-axis (1) (see the paper for details).
@@ -222,7 +221,7 @@ def get_interpolated_feature(
         x_coordinate_map: torch.Tensor,
         interpolate_mode: str = "bilinear",
 ):
-    """From coordinate map interpolate feature of DSCNet based on: TODO
+    """From coordinate map interpolate feature of DSCNet based on:
     Args:
         input_feature: feature that to be interpolated with shape [B, C, H, W]
         y_coordinate_map: coordinate map along y-axis with shape [B, K_H * H, K_W * W]
@@ -264,7 +263,7 @@ def _coordinate_map_scaling(
         origin: list,
         target: list = [-1, 1],
 ):
-    """Map the value of coordinate_map from origin=[min, max] to target=[a,b] for DSCNet based on: TODO
+    """Map the value of coordinate_map from origin=[min, max] to target=[a,b] for DSCNet based on:
     Args:
         coordinate_map: the coordinate map to be scaled
         origin: original value range of coordinate map, e.g. [coordinate_map.min(), coordinate_map.max()]
@@ -283,10 +282,10 @@ def _coordinate_map_scaling(
     return coordinate_map_scaled
 
 
-# 创建一个 DSConv_pro 实例
-# dsconv = DSConv_pro(in_channels=2048, out_channels=1024, kernel_size=3, extend_scope=1.0, morph=0, if_offset=True, device="cuda").cuda()
-#
-# input = (2048, 14, 14)
-#
-# summary(dsconv, input)
+if __name__ == '__main__':
+    pna = DSConv_pro(in_channels=32, out_channels=16, kernel_size=3, extend_scope=1.0, morph=0, if_offset=True, device="cuda").cuda()
+    summary(pna, input_size=(32, 512, 1024))
+    input = torch.randn(1, 32, 512, 1024).cuda()
+    flops = FlopCountAnalysis(pna, input)
+    print(f"FLOPs: {flops.total()}")
 

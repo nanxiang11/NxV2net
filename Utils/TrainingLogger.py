@@ -41,7 +41,7 @@ class TrainingLogger:
         self.df = pd.concat([self.df, new_df], ignore_index=True)
         self.df = self.df.sort_values(by='epoch')
 
-        self.df.to_csv('./画图/' + self.filename + '.csv', index=False)
+        self.df.to_csv('../RES/' + self.filename + '.csv', index=False)
 
         self.records = []
 

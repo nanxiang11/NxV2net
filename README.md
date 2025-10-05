@@ -63,3 +63,5 @@ Our model demonstrates superior performance in both quantitative and qualitative
 
 > For any questions or collaborations, feel free to open an issue or contact the author via GitHub.
 
+## Star History
+![Star History](https://api.star-history.com/svg?repos=nanxiang11/NxV2net&type=Date)
